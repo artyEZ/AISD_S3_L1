@@ -82,6 +82,13 @@ private:
         return true;
     }
 
+    Node* findMinValueNode(Node* node) {
+        while (node->left != nullptr) {
+            node = node->left;
+        }
+        return node;
+    }
+
     bool erase_(Node*& node, int key) {
         if (node == nullptr) {
             return false;
@@ -116,13 +123,6 @@ private:
 
             return true;
         }
-    }
-
-    Node* findMinValueNode(Node* node) {
-        while (node->left != nullptr) {
-            node = node->left;
-        }
-        return node;
     }
 
 public:
@@ -160,9 +160,6 @@ public:
     bool erase(int key) {
         return erase_(root, key);
     }
-
-private:
-
 };
 
 

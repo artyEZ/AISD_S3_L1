@@ -160,6 +160,52 @@ public:
     bool erase(int key) {
         return erase_(root, key);
     }
+
+    std::vector<int> getUniqueElements(std::vector<int>& input)
+    {
+        Set set;
+        std::vector<int> temp;
+        std::vector<int> tmp;
+
+        for (const auto& element : input)
+        {
+            if (!set.contains(element))
+            {
+                set.insert(element);
+                set.erase(0);
+            }
+            else
+            {
+                if (std::find(temp.begin(), temp.end(), element) == temp.end())
+                {
+                    temp.push_back(element);
+                }
+            }
+        }
+
+        for (const auto& element : temp)
+        {
+            if (set.contains(element))
+            {
+                set.erase(element);
+            }
+        }
+
+        set.print();
+
+        for (const auto& element : input)
+        {
+            if (set.contains(element) && std::find(tmp.begin(), tmp.end(), element) == tmp.end())
+            {
+                tmp.push_back(element);
+            }
+        }
+
+        input = tmp;
+
+        return input;
+    }
+
 };
 
 
@@ -169,6 +215,7 @@ size_t lcg() {
     x = (1021 * x + 24631) % 116640;
     return x;
 }
+
 double avg(const double* arr) {
     double sum = 0;
     for (size_t i = 0; i < 100; ++i) {
@@ -315,17 +362,6 @@ void erase_vector(size_t count) {
     std::cout << "Среднее время удаления случайного числа в векторе: " << avg1000(time) << std::endl;
 }
 
-std::vector<int> getUniqueElements(const std::vector<int>& input) {
-    std::vector<int> uniqueElements;
-
-    for (int num : input) {
-        if (std::find(uniqueElements.begin(), uniqueElements.end(), num) == uniqueElements.end()) {
-            uniqueElements.push_back(num);
-        }
-    }
-
-    return uniqueElements;
-}
 
 int main() {
     setlocale(LC_ALL, "Russian");
@@ -363,14 +399,12 @@ int main() {
 
 
     // Задача по варианту 
-    std::vector<int> input = { 3, 2, 2, 4 };
-    std::vector<int> uniqueElements = getUniqueElements(input); // Ожидаемый вывод: 3 2 4
+   
+    Set mySet;
+    // Заполнение множества mySet
 
-    std::cout << "Unique elements:";
-    for (int num : uniqueElements) {
-        std::cout << " " << num;
-    }
-    std::cout << std::endl;
+    std::vector<int> input = { 3, 2, 2, 4 };
+    std::vector<int> uniqueElements = mySet.getUniqueElements(input);
 
     /*system("cls");
     insert_tree(1000);
